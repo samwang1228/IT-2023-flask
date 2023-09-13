@@ -1,0 +1,22 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+</head>
+<body>
+    <h1>Welcome, {{ username }}!</h1>
+    <p>Today is {{ date }}</p>
+    <ul>
+        {% for item in items %}
+          {% if item == 'Apple' %}
+          <li>I like {{ item }}</li>
+          {% else %}
+            <li>{{ item }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      
+      
+</body>
+</html>
