@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>首頁</title>
+
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <script>
+        function onUploadButton() {
+            msg = '您確定要上傳影片? 若已有相同檔名影片會將其覆蓋';
+        }
+        function checkSubmit() {
+            if (confirm(msg)) {
+                document.getElementById("wait").style.display = "block";
+                document.getElementById("fin").style.display = "none";
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            Your Logo
+        </div>
+        <div class="nav">
+            <a href="/login">登入</a>
+            <a href="/register">註冊</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Welcome to My Website</h1>
+        {% if errorMsg %}
+        <h2 style="color:red;"> {{ errorMsg|safe }} </h2>
+
+        {% else %}
+        <label>{{filename}}已上傳</label>
+
+        {% endif %}
+        {% if img_name %}
+        <!-- 如果filename變數值不是空的，則顯示影像。 -->
+        <div>
+            <img src="static/uploads/{{img_name}}" height='300vh'>
+        </div>
+        {% endif %}
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('upload_file') }}"
+            onsubmit="return checkSubmit(this)">
+            <div id="wait" style="display:none">
+                <p>Please wait while the file is being uploaded...</p>
+                <img src="{{ url_for('static', filename='gif/ani.gif') }}">
+            </div>
+            <input type="file" id="getFile"  name="filename" required>
+            <input type="submit" class="btn btn-outline-info" value="上傳" onclick="onUploadButton()">
+            <h1><label id="file-name"></label></h1>
+
+        </form>
+    </div>
+
+    <footer>
+        &copy; 2023 Your Company. All rights reserved.
+    </footer>
+</body>
+
+</html>
