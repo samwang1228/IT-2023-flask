@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>首頁</title>
+
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <script>
+        function onUploadButton() {
+            msg = '您確定要上傳影片? 若已有相同檔名影片會將其覆蓋';
+        }
+        function checkSubmit() {
+            if (confirm(msg)) {
+                document.getElementById("wait").style.display = "block";
+                document.getElementById("fin").style.display = "none";
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    </script>
+</head>
+
+<body>
+    {% include "base.html" %}
+
+    <div class="container">
+          <h1>Welcome to My Website</h1>
+         
+             
+        
+    
+
+    <footer>
+        &copy; 2023 Your Company. All rights reserved.
+    </footer>
+</body>
+
+</html>
