@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>首頁</title>
+
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+
+</head>
+
+<body>
+    {% include "base.html" %}
+
+    <div class="container">
+        <h1>管理者 {{user}} 您好!</h1>
+    
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">帳號</th>
+                    <th scope="col">密碼</th>
+                    <th scope="col">操作</th>
+                </tr>
+            </thead>
+        
+            {% for i in range(size) %}
+            <form action="{{ url_for('delete_user') }}" method="POST">
+                <tbody>
+                    <tr>
+                        <th scope="row">{{i+1}}</th>
+                        <td>{{data[i][0]}}</td>
+                        <td>{{data[i][1]}}</td>
+                        <td>
+                            <input type="hidden" name="username" value="{{data[i][0]}}"  >
+                            <button class="btn btn-danger btn-delete" type="submit" onclick="return confirmDelete('{{data[i][0]}}')">刪除</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </form>
+            {% endfor %}
+        </table>
+        <script>
+            function confirmDelete(account) {
+                return confirm("您確定要刪除帳號 '" + account + "' 嗎？");
+            }
+        </script>
+    </div>
+    
+
+
+
+    <footer>
+        &copy; 2023 Your Company. All rights reserved.
+    </footer>
+</body>
+
+</html>

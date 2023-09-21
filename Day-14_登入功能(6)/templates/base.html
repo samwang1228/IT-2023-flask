@@ -1,0 +1,18 @@
+<header>
+    <div class="logo">
+        Your Logo
+    </div>
+    <div class="nav">
+         
+        {% if current_user.is_authenticated and current_user.get_id()=='user' %}
+        <a class="nav-link" href="/logout">登出</a></li>
+        <a class="nav-link" href="/manager">管理者</a></li>
+        {% elif current_user.is_authenticated and current_user.get_id()!='user' %}
+        <a class="nav-link" href="/logout">登出</a></li>
+        {% else %}
+        <a class="nav-link" href="/login">登入</a></li>
+        <a class="nav-link" href="/signup">註冊</a></li>
+        {% endif %}
+         
+    </div>
+</header>
