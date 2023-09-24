@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>首頁</title>
+
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+     
+</head>
+
+<body>
+    {% include "base.html" %}
+
+    <div class="container">
+          <h1>Welcome {{user_id}} to My Website</h1>
+         
+             </div>
+
+        
+    
+
+    <footer>
+        &copy; 2023 Your Company. All rights reserved.
+    </footer>
+</body>
+
+</html>
