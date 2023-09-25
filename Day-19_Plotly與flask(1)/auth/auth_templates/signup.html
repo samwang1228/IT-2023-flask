@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>首頁</title>
+
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    
+</head>
+
+<body>
+    {% include "base.html" %}
+
+    <div class="container">
+        <h1>Welcome to My Website</h1>
+        
+            <h2>sign up</h2>
+            <form action="{{ url_for('auth.sign_up')}}" method="POST">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="ID" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    <label for="checkpassword">Please input again</label>
+                    <input type="password" id="checkpassword" name="checkpassword" required>
+                </div>
+                <h2 style="color:red;"> {{ errorMsg|safe }} </h2>
+
+                <div class="form-group">
+                    <button type="submit">sign up</button>
+                </div>
+            </form>
+        </div>
+     
+    
+
+    <footer>
+        &copy; 2023 Your Company. All rights reserved.
+    </footer>
+</body>
+
+</html>
