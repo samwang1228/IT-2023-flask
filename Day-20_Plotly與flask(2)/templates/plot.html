@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Plotly with Flask</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+
+</head>
+<body>
+     
+    {% include "base.html" %}
+
+     <div class="container">
+          <h1>Welcome {{user_id}} to My Website</h1>
+          <div id="plot">{{ plot_html|safe }}</div>
+        </div>        
+
+        
+    
+
+    <footer>
+        &copy; 2023 Your Company. All rights reserved.
+    </footer>
+    <!-- 在此處插入 Plotly 圖表的容器 -->
+    
+
+     
+</body>
+</html>
