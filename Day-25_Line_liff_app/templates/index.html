@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LIFF 表單測試</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <style>
+        /* 在<style>标签中添加 CSS 样式 */
+        .rounded-image {
+            border-radius: 50%;
+        }
+
+        .center-image {
+            margin: 0 auto;
+            display: block;
+        }
+        .shadowed-image {
+            display: block;
+            margin: 0 auto;
+            box-shadow: 5px 5px 10px #888888; /* 阴影效果 */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="row" style="margin: 10px">
+        <div class="center-image">
+            <img id="myImage" src="" alt="图片" class="rounded-image shadowed-image" width="300px" height="300px">
+            <h1 id="name" style="text-align: center;"> </h1>
+        </div>
+        
+        <div id="output"></div>
+        <div class="col-12" style="margin: 10px">
+            <label>口味</label>
+            <select id="sel_room" class="form-control">
+                <option selected>海鮮鳳梨</option>
+                <option>墨西哥</option>
+                <option>龍蝦沙拉</option>
+            </select>
+            <label>份數</label>
+            <input type="text" id="name" class="form-control" />
+            <br />
+            <label>日期</label>
+            <input type="date" id="datetime" value="" class="form-control" />
+            <br />
+            <button class="btn btn-success btn-block" id="sure">確定</button>
+        </div>
+    </div>
+
+    <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+    <script>
+        var user_id;
+        var name;
+        var picUrl;
+        function initializeLiff(myLiffId) {
+            liff.init({
+                liffId: myLiffId
+            }).then(() => {
+                if (!liff.isLoggedIn()) {
+                    alert("用戶未登入");
+                    liff.login();
+                } else {
+                    // alert("用戶已登入");
+                    liff.getProfile()
+                        .then(profile => {
+                            name = profile.displayName;
+                            userId = profile.userId;
+                            picUrl = profile.pictureUrl;
+                            const imgElement = document.getElementById("myImage");
+                            document.getElementById("name").innerHTML = name;
+                            imgElement.src = picUrl;
+                        })
+                        .catch((err) => {
+                            console.log('error', err);
+                        });
+                }
+            }).catch((err) => {
+                console.log('初始化失敗', err);
+            });
+        }
+
+
+        function pushMsg(pname, pdatatime, proom) {
+            if (pname == '' || pdatatime == '' || proom == '') {  //資料檢查
+                alert('每個項目都必須輸入！');
+                return;
+            }
+        }
+             
+
+        $(document).ready(function () {
+            initializeLiff('{{ liffid }}');  //接收傳遞的 liffid 參數
+            $('#sure').click(function (e) {  //按下確定鈕
+                pushMsg($('#name').val(), $('#datetime').val(), $('#sel_room').val());
+            });
+        });
+    </script>
+</body>
+
+</html>
