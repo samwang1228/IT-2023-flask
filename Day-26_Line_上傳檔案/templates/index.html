@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>上傳檔案</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <style>
+        /* 在<style>标签中添加 CSS 样式 */
+        .rounded-image {
+            border-radius: 50%;
+        }
+
+        .center-image {
+            margin: 0 auto;
+            display: block;
+        }
+        .shadowed-image {
+            display: block;
+            margin: 0 auto;
+            box-shadow: 5px 5px 10px #888888; /* 阴影效果 */
+        }
+    </style>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+<script>
+    function onUploadButton() {
+        msg = '您確定要上傳影片? 若已有相同檔名影片會將其覆蓋';
+    }
+    function checkSubmit() {
+        if (confirm(msg)) {
+            document.getElementById("wait").style.display = "block";
+            document.getElementById("fin").style.display = "none";
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+</script>
+</head>
+
+<body>
+ 
+
+<header class="upload text-center  ">
+    <h2 style="color: white;">Hi<div id="name"></div>請選擇要上傳的音檔</h2>2
+    {% if errorMsg %}
+    <h2 style="color:red;"> {{ errorMsg|safe }} </h2>
+    {% endif %}
+
+    {% if img_name %}
+        <label style="color: white;">{{filename}}已上傳</label>
+    
+    {% endif %}
+    <form method="POST" enctype="multipart/form-data" action="{{ url_for('upload_file') }}"
+        onsubmit="return checkSubmit(this)">
+        <div id="wait" style="display:none">
+            <p style="color: white;">Please wait while the file is being uploaded...</p>
+            <img src="{{ url_for('static', filename='gif/test.gif') }}"  width="300px" height="300px">
+        </div>
+        <button class="btn btn-outline-info" onclick="document.getElementById('getFile').click()"value="select" name="select">選擇檔案</button>
+        <input type="file" id="getFile" style="display:none" name="filename"  required>
+        <input type="text" id="user_id" name="ID" style="display: none;" >
+        <input type="submit" class="btn btn-outline-info" value="上傳" onclick="onUploadButton()">
+        <h1><label id="file-name"></label></h1>
+
+    </form>
+</div>
+</header>
+<footer class="text-center">
+    &copy; 2023 Your Company. All rights reserved.
+</footer>
+
+    <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+    <script>
+        var user_id;
+        var name;
+        var picUrl;
+        function initializeLiff(myLiffId) {
+            liff.init({
+                liffId: myLiffId
+            }).then(() => {
+                if (!liff.isLoggedIn()) {
+                    alert("用戶未登入");
+                    liff.login();
+                } else {
+                    // alert("用戶已登入");
+                    liff.getProfile()
+                        .then(profile => {
+                            name = profile.displayName;
+                            user_id = profile.userId;
+                            picUrl = profile.pictureUrl;
+                            const imgElement = document.getElementById("myImage");
+                            document.getElementById("name").innerHTML = name;
+                            var inputElement = document.getElementById('user_id');
+                            // 設置 input 元素的值
+                            inputElement.value = user_id;
+                            imgElement.src = picUrl;
+                        })
+                        .catch((err) => {
+                            console.log('error', err);
+                        });
+                }
+            }).catch((err) => {
+                console.log('初始化失敗', err);
+            });
+        }
+
+
+        function pushMsg(pname, pdatatime, proom) {
+            if (pname == '' || pdatatime == '' || proom == '') {  //資料檢查
+                alert('每個項目都必須輸入！');
+                return;
+            }
+        }
+             
+
+        $(document).ready(function () {
+            initializeLiff('{{ liffid }}');  //接收傳遞的 liffid 參數
+            $('#sure').click(function (e) {  //按下確定鈕
+                pushMsg($('#name').val(), $('#datetime').val(), $('#sel_room').val());
+            });
+        });
+    </script>
+</body>
+
+</html>
